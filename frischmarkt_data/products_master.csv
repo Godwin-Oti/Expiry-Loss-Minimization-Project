@@ -1,0 +1,46 @@
+product_id,product_name,category,subcategory,brand,unit_cost,retail_price,shelf_life_days,mhd_vs_verbrauch,seasonality_factor,temperature_sensitive,supplier_id
+P001,Vollmilch 3.8%,Molkereiprodukte,Milch,Müller,1.29,1.83,13,Verbrauchsdatum,0.88,True,SUP04
+P002,Fettarme Milch 1.5%,Molkereiprodukte,Milch,FrischMarkt,3.56,4.85,13,Verbrauchsdatum,1.04,True,SUP01
+P003,Naturjoghurt,Molkereiprodukte,Joghurt,Weihenstephan,1.68,2.27,4,Verbrauchsdatum,1.15,True,SUP18
+P004,Fruchtjoghurt Erdbeere,Molkereiprodukte,Joghurt,Weihenstephan,1.69,2.33,9,Verbrauchsdatum,1.31,True,SUP06
+P005,Griechischer Joghurt,Molkereiprodukte,Joghurt,Müller,2.42,3.11,14,Verbrauchsdatum,1.47,True,SUP11
+P006,Magerquark,Molkereiprodukte,Quark,Danone,1.22,1.5,4,Verbrauchsdatum,1.18,True,SUP02
+P007,Speisequark,Molkereiprodukte,Quark,Goldsteig,2.55,3.16,14,Verbrauchsdatum,0.76,True,SUP10
+P008,Frischkäse,Molkereiprodukte,Käse,FrischMarkt,3.12,4.55,13,Verbrauchsdatum,0.85,True,SUP03
+P009,Deutsche Markenbutter,Molkereiprodukte,Butter,Weihenstephan,3.28,4.7,3,Verbrauchsdatum,1.38,True,SUP04
+P010,Schwarzbrot,Backwaren,Brot,Golden Toast,1.36,1.89,4,MHD,0.83,False,SUP12
+P011,Vollkornbrot,Backwaren,Brot,Bäckerei Schmidt,2.36,3.33,2,MHD,1.19,False,SUP06
+P012,Weißbrot,Backwaren,Brot,FrischMarkt Bäckerei,2.51,3.14,5,MHD,0.92,False,SUP18
+P013,Sonntagsbrötchen,Backwaren,Brötchen,Bäckerei Schmidt,2.4,3.49,2,MHD,0.88,False,SUP02
+P014,Körnerbrötchen,Backwaren,Brötchen,Golden Toast,1.67,2.04,3,MHD,0.87,False,SUP16
+P015,Apfelkuchen,Backwaren,Kuchen,Harry Brot,2.91,4.05,4,MHD,0.91,False,SUP08
+P016,Streuselkuchen,Backwaren,Kuchen,FrischMarkt Bäckerei,2.02,2.88,5,MHD,1.42,False,SUP13
+P017,Schwarzbrot,Backwaren,Gebäck,FrischMarkt Bäckerei,1.21,1.81,3,MHD,0.77,False,SUP02
+P018,Vollkornbrot,Backwaren,Gebäck,FrischMarkt Bäckerei,1.04,1.3,1,MHD,1.18,False,SUP13
+P019,Weißbrot,Backwaren,Gebäck,Golden Toast,2.17,2.91,4,MHD,1.48,False,SUP01
+P020,Äpfel Elstar,Frischware,Obst,Demeter,4.4,5.99,3,MHD,1.31,False,SUP11
+P021,Bananen,Frischware,Obst,Regional,2.46,3.07,3,MHD,1.46,False,SUP09
+P022,Erdbeeren,Frischware,Obst,Regional,4.8,6.49,10,MHD,1.4,False,SUP10
+P023,Äpfel Elstar,Frischware,Gemüse,Bio Naturkind,4.03,5.02,10,MHD,1.13,False,SUP17
+P024,Bananen,Frischware,Gemüse,Regional,3.98,5.36,2,MHD,1.44,False,SUP10
+P025,Erdbeeren,Frischware,Gemüse,Regional,1.28,1.87,5,MHD,0.77,False,SUP16
+P026,Äpfel Elstar,Frischware,Salate,Bio Naturkind,5.88,8.0,3,MHD,0.8,False,SUP16
+P027,Bananen,Frischware,Salate,FrischMarkt,1.82,2.47,10,MHD,1.47,False,SUP18
+P028,Erdbeeren,Frischware,Salate,Demeter,4.55,6.0,5,MHD,1.05,False,SUP17
+P029,Äpfel Elstar,Frischware,Kräuter,Demeter,1.6,2.03,9,MHD,0.72,False,SUP18
+P030,Bananen,Frischware,Kräuter,Regional,3.93,4.72,5,MHD,0.88,False,SUP02
+P031,Erdbeeren,Frischware,Kräuter,FrischMarkt,1.34,1.7,7,MHD,0.87,False,SUP05
+P032,Rinderhackfleisch,Fleisch,Rind,FrischMarkt Metzgerei,12.35,16.94,7,Verbrauchsdatum,0.89,True,SUP16
+P033,Schweinekoteletts,Fleisch,Schwein,FrischMarkt Metzgerei,7.06,8.67,8,Verbrauchsdatum,0.98,True,SUP14
+P034,Rinderhackfleisch,Fleisch,Geflügel,Wiesenhof,11.63,14.15,5,Verbrauchsdatum,0.75,True,SUP11
+P035,Schweinekoteletts,Fleisch,Geflügel,Tönnies,11.61,14.8,8,Verbrauchsdatum,1.13,True,SUP05
+P036,Hähnchenbrust,Fleisch,Geflügel,Wiesenhof,4.82,6.45,5,Verbrauchsdatum,1.05,True,SUP18
+P037,Bratwurst,Fleisch,Wurst,Wiesenhof,3.5,5.25,2,Verbrauchsdatum,1.48,True,SUP08
+P038,Leberwurst,Fleisch,Wurst,FrischMarkt Metzgerei,7.05,9.48,3,Verbrauchsdatum,1.42,True,SUP06
+P039,Kartoffelsalat,Feinkost,Aufschnitt,Homann,1.5,1.98,9,MHD,0.93,True,SUP18
+P040,Nudelsalat,Feinkost,Aufschnitt,Nadler,2.34,3.02,10,MHD,1.16,True,SUP18
+P041,Thunfischsalat,Feinkost,Aufschnitt,FrischMarkt Feinkost,5.6,6.82,3,MHD,1.08,True,SUP17
+P042,Kartoffelsalat,Feinkost,Salate,Nadler,1.8,2.43,5,MHD,0.75,True,SUP03
+P043,Nudelsalat,Feinkost,Salate,FrischMarkt Feinkost,3.71,5.5,6,MHD,0.9,True,SUP20
+P044,Thunfischsalat,Feinkost,Salate,FrischMarkt Feinkost,4.9,6.5,3,MHD,1.15,True,SUP11
+P045,Antipasti Gemüse,Feinkost,Antipasti,Nadler,2.61,3.69,7,MHD,0.91,True,SUP05

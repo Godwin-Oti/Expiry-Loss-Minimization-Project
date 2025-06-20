@@ -1,0 +1,7 @@
+store_id,store_name,location_type,square_meters,demographics_score,foot_traffic_level,refrigeration_capacity,staff_efficiency_score,distance_from_warehouse_km,opening_year,sunday_closed
+S001,FrischMarkt Prenzlauer Berg,Berlin City Center,1460,8,Hoch,8,5,6,2017,True
+S002,FrischMarkt Prenzlauer Berg,Berlin City Center,1376,6,Mittel,10,6,69,2014,True
+S003,FrischMarkt Kreuzberg,Berlin Suburbs,1557,5,Mittel,8,7,25,2017,True
+S004,FrischMarkt Friedrichshain,Berlin Suburbs,1920,7,Mittel,10,7,89,2011,True
+S005,FrischMarkt Brandenburg,Brandenburg Towns,1770,3,Niedrig,10,6,39,2014,True
+S006,FrischMarkt Brandenburg,Brandenburg Towns,2234,5,Niedrig,8,9,67,2014,True
