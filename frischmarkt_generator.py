@@ -16,7 +16,7 @@ print("=" * 60)
 # Create output directory
 os.makedirs('frischmarkt_data', exist_ok=True)
 
-# German product data
+# German product data with FICTIONAL brand names
 GERMAN_PRODUCTS = {
     'Molkereiprodukte': {
         'subcategories': ['Milch', 'Joghurt', 'Quark', 'Käse', 'Butter'],
@@ -25,7 +25,7 @@ GERMAN_PRODUCTS = {
             'Griechischer Joghurt', 'Magerquark', 'Speisequark', 'Gouda Jung', 'Camembert',
             'Frischkäse', 'Deutsche Markenbutter', 'Saure Sahne'
         ],
-        'brands': ['Weihenstephan', 'Müller', 'Danone', 'Goldsteig', 'FrischMarkt'],
+        'brands': ['Alpenhof', 'Bergwiese', 'Landlust', 'Frische Quelle', 'FrischMarkt'],
         'shelf_life': (3, 14), 'cost_range': (0.89, 4.50)
     },
     'Backwaren': {
@@ -34,7 +34,7 @@ GERMAN_PRODUCTS = {
             'Schwarzbrot', 'Vollkornbrot', 'Weißbrot', 'Sonntagsbrötchen', 'Körnerbrötchen',
             'Laugenbrezeln', 'Apfelkuchen', 'Streuselkuchen', 'Croissant', 'Berliner'
         ],
-        'brands': ['Bäckerei Schmidt', 'Harry Brot', 'Golden Toast', 'FrischMarkt Bäckerei'],
+        'brands': ['Bäckerei Goldkorn', 'Kornmühle', 'Backstube Hansen', 'FrischMarkt Bäckerei'],
         'shelf_life': (1, 5), 'cost_range': (0.65, 3.20)
     },
     'Frischware': {
@@ -43,7 +43,7 @@ GERMAN_PRODUCTS = {
             'Äpfel Elstar', 'Bananen', 'Erdbeeren', 'Spargel Weiß', 'Kartoffeln Festkochend',
             'Tomaten', 'Gurken', 'Möhren', 'Kopfsalat', 'Rucola', 'Petersilie', 'Basilikum'
         ],
-        'brands': ['Regional', 'Bio Naturkind', 'Demeter', 'FrischMarkt'],
+        'brands': ['Regional', 'Bio Sonnenhof', 'Naturkost Weber', 'FrischMarkt'],
         'shelf_life': (2, 10), 'cost_range': (0.99, 5.99)
     },
     'Fleisch': {
@@ -52,7 +52,7 @@ GERMAN_PRODUCTS = {
             'Rinderhackfleisch', 'Schweinekoteletts', 'Hähnchenbrust', 'Bratwurst',
             'Leberwurst', 'Salami', 'Schinken Gekocht', 'Wiener Würstchen'
         ],
-        'brands': ['Wiesenhof', 'Tönnies', 'Wilhelm Brandenburg', 'FrischMarkt Metzgerei'],
+        'brands': ['Fleischerei Meister', 'Landmetzger Koch', 'Geflügelhof Grün', 'FrischMarkt Metzgerei'],
         'shelf_life': (2, 8), 'cost_range': (2.99, 12.99)
     },
     'Feinkost': {
@@ -61,12 +61,12 @@ GERMAN_PRODUCTS = {
             'Kartoffelsalat', 'Nudelsalat', 'Thunfischsalat', 'Oliven Mix',
             'Antipasti Gemüse', 'Hummus', 'Tzatziki', 'Leberpastete'
         ],
-        'brands': ['Nadler', 'Homann', 'FrischMarkt Feinkost'],
+        'brands': ['Delikatessen Richter', 'Feinkost Bergmann', 'FrischMarkt Feinkost'],
         'shelf_life': (3, 12), 'cost_range': (1.49, 6.99)
     }
 }
 
-GERMAN_BRANDS = ['Weihenstephan', 'Müller', 'Goldsteig', 'Harry', 'Wiesenhof', 'FrischMarkt', 'Bio Naturkind']
+GERMAN_BRANDS = ['Alpenhof', 'Bergwiese', 'Kornmühle', 'Fleischerei Meister', 'Bio Sonnenhof', 'FrischMarkt', 'Naturkost Weber']
 
 def generate_products_master():
     """Generate German product master data"""
@@ -334,7 +334,6 @@ def generate_inventory_and_sales(products_df, stores_df, external_df):
                 beginning_inventory = current_stock
                 if receives_delivery:
                     current_stock += received_quantity
-            
                 
                 # Calculate actual sales (can't sell more than available)
                 actual_sales = min(expected_demand, current_stock)
@@ -348,18 +347,14 @@ def generate_inventory_and_sales(products_df, stores_df, external_df):
                 markdown_date = None
                 
                 # Simple expiry simulation (products expire based on FIFO)
-                if random.random() < 0.05:  # 5% chance of some expiry
+                if random.random() < 0.05 and current_stock > 0:  # 5% chance of some expiry
                     units_expired = random.randint(1, min(5, current_stock))
                 
-               # Markdown logic (day before expiry)
-                if random.random() < 0.08:  # 8% chance of markdown
-                    if current_stock >= 1:
-                        units_marked_down = random.randint(1, min(10, current_stock))
-                        markdown_price = round(product['retail_price'] * 0.5, 2)  # 50% off
-                        markdown_date = date_str
-                    else:
-                        units_marked_down = 0  # No stock to mark down
-
+                # Markdown logic (day before expiry)
+                if random.random() < 0.08 and current_stock > 0:  # 8% chance of markdown
+                    units_marked_down = random.randint(1, min(10, current_stock))
+                    markdown_price = round(product['retail_price'] * 0.5, 2)  # 50% off
+                    markdown_date = date_str
                 
                 # Update stock after sales and waste
                 current_stock = current_stock - actual_sales - units_expired
@@ -431,7 +426,14 @@ def generate_supplier_performance(products_df):
         num_deliveries = random.randint(20, 50)
         
         for _ in range(num_deliveries):
-            delivery_date = fake.date_between(start_date='2023-01-01', end_date='2023-12-31')
+            # Generate random date in 2023 using datetime
+            start_date = datetime(2023, 1, 1)
+            end_date = datetime(2023, 12, 31)
+            time_between = end_date - start_date
+            days_between = time_between.days
+            random_days = random.randrange(days_between)
+            delivery_date = start_date + timedelta(days=random_days)
+            
             supplier_products = products_df[products_df['supplier_id'] == supplier_id]
             product = supplier_products.sample(1).iloc[0]
             
@@ -499,4 +501,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-    
