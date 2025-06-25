@@ -1,46 +1,46 @@
-product_id,product_name,category,subcategory,brand,unit_cost,retail_price,shelf_life_days,mhd_vs_verbrauch,seasonality_factor,temperature_sensitive,supplier_id
-P001,Vollmilch 3.8%,Molkereiprodukte,Milch,Bergwiese,1.29,1.83,13,Verbrauchsdatum,0.88,True,SUP04
-P002,Fettarme Milch 1.5%,Molkereiprodukte,Milch,FrischMarkt,3.56,4.85,13,Verbrauchsdatum,1.04,True,SUP01
-P003,Naturjoghurt,Molkereiprodukte,Joghurt,Alpenhof,1.68,2.27,4,Verbrauchsdatum,1.15,True,SUP18
-P004,Fruchtjoghurt Erdbeere,Molkereiprodukte,Joghurt,Alpenhof,1.69,2.33,9,Verbrauchsdatum,1.31,True,SUP06
-P005,Griechischer Joghurt,Molkereiprodukte,Joghurt,Bergwiese,2.42,3.11,14,Verbrauchsdatum,1.47,True,SUP11
-P006,Magerquark,Molkereiprodukte,Quark,Landlust,1.22,1.5,4,Verbrauchsdatum,1.18,True,SUP02
-P007,Speisequark,Molkereiprodukte,Quark,Frische Quelle,2.55,3.16,14,Verbrauchsdatum,0.76,True,SUP10
-P008,Frischkäse,Molkereiprodukte,Käse,FrischMarkt,3.12,4.55,13,Verbrauchsdatum,0.85,True,SUP03
-P009,Deutsche Markenbutter,Molkereiprodukte,Butter,Alpenhof,3.28,4.7,3,Verbrauchsdatum,1.38,True,SUP04
-P010,Schwarzbrot,Backwaren,Brot,Backstube Hansen,1.36,1.89,4,MHD,0.83,False,SUP12
-P011,Vollkornbrot,Backwaren,Brot,Bäckerei Goldkorn,2.36,3.33,2,MHD,1.19,False,SUP06
-P012,Weißbrot,Backwaren,Brot,FrischMarkt Bäckerei,2.51,3.14,5,MHD,0.92,False,SUP18
-P013,Sonntagsbrötchen,Backwaren,Brötchen,Bäckerei Goldkorn,2.4,3.49,2,MHD,0.88,False,SUP02
-P014,Körnerbrötchen,Backwaren,Brötchen,Backstube Hansen,1.67,2.04,3,MHD,0.87,False,SUP16
-P015,Apfelkuchen,Backwaren,Kuchen,Kornmühle,2.91,4.05,4,MHD,0.91,False,SUP08
-P016,Streuselkuchen,Backwaren,Kuchen,FrischMarkt Bäckerei,2.02,2.88,5,MHD,1.42,False,SUP13
-P017,Schwarzbrot,Backwaren,Gebäck,FrischMarkt Bäckerei,1.21,1.81,3,MHD,0.77,False,SUP02
-P018,Vollkornbrot,Backwaren,Gebäck,FrischMarkt Bäckerei,1.04,1.3,1,MHD,1.18,False,SUP13
-P019,Weißbrot,Backwaren,Gebäck,Backstube Hansen,2.17,2.91,4,MHD,1.48,False,SUP01
-P020,Äpfel Elstar,Frischware,Obst,Naturkost Weber,4.4,5.99,3,MHD,1.31,False,SUP11
-P021,Bananen,Frischware,Obst,Regional,2.46,3.07,3,MHD,1.46,False,SUP09
-P022,Erdbeeren,Frischware,Obst,Regional,4.8,6.49,10,MHD,1.4,False,SUP10
-P023,Äpfel Elstar,Frischware,Gemüse,Bio Sonnenhof,4.03,5.02,10,MHD,1.13,False,SUP17
-P024,Bananen,Frischware,Gemüse,Regional,3.98,5.36,2,MHD,1.44,False,SUP10
-P025,Erdbeeren,Frischware,Gemüse,Regional,1.28,1.87,5,MHD,0.77,False,SUP16
-P026,Äpfel Elstar,Frischware,Salate,Bio Sonnenhof,5.88,8.0,3,MHD,0.8,False,SUP16
-P027,Bananen,Frischware,Salate,FrischMarkt,1.82,2.47,10,MHD,1.47,False,SUP18
-P028,Erdbeeren,Frischware,Salate,Naturkost Weber,4.55,6.0,5,MHD,1.05,False,SUP17
-P029,Äpfel Elstar,Frischware,Kräuter,Naturkost Weber,1.6,2.03,9,MHD,0.72,False,SUP18
-P030,Bananen,Frischware,Kräuter,Regional,3.93,4.72,5,MHD,0.88,False,SUP02
-P031,Erdbeeren,Frischware,Kräuter,FrischMarkt,1.34,1.7,7,MHD,0.87,False,SUP05
-P032,Rinderhackfleisch,Fleisch,Rind,FrischMarkt Metzgerei,12.35,16.94,7,Verbrauchsdatum,0.89,True,SUP16
-P033,Schweinekoteletts,Fleisch,Schwein,FrischMarkt Metzgerei,7.06,8.67,8,Verbrauchsdatum,0.98,True,SUP14
-P034,Rinderhackfleisch,Fleisch,Geflügel,Fleischerei Meister,11.63,14.15,5,Verbrauchsdatum,0.75,True,SUP11
-P035,Schweinekoteletts,Fleisch,Geflügel,Landmetzger Koch,11.61,14.8,8,Verbrauchsdatum,1.13,True,SUP05
-P036,Hähnchenbrust,Fleisch,Geflügel,Fleischerei Meister,4.82,6.45,5,Verbrauchsdatum,1.05,True,SUP18
-P037,Bratwurst,Fleisch,Wurst,Fleischerei Meister,3.5,5.25,2,Verbrauchsdatum,1.48,True,SUP08
-P038,Leberwurst,Fleisch,Wurst,FrischMarkt Metzgerei,7.05,9.48,3,Verbrauchsdatum,1.42,True,SUP06
-P039,Kartoffelsalat,Feinkost,Aufschnitt,Feinkost Bergmann,1.5,1.98,9,MHD,0.93,True,SUP18
-P040,Nudelsalat,Feinkost,Aufschnitt,Delikatessen Richter,2.34,3.02,10,MHD,1.16,True,SUP18
-P041,Thunfischsalat,Feinkost,Aufschnitt,FrischMarkt Feinkost,5.6,6.82,3,MHD,1.08,True,SUP17
-P042,Kartoffelsalat,Feinkost,Salate,Delikatessen Richter,1.8,2.43,5,MHD,0.75,True,SUP03
-P043,Nudelsalat,Feinkost,Salate,FrischMarkt Feinkost,3.71,5.5,6,MHD,0.9,True,SUP20
-P044,Thunfischsalat,Feinkost,Salate,FrischMarkt Feinkost,4.9,6.5,3,MHD,1.15,True,SUP11
-P045,Antipasti Gemüse,Feinkost,Antipasti,Delikatessen Richter,2.61,3.69,7,MHD,0.91,True,SUP05
+product_id,product_name,category,subcategory,brand,unit_cost,retail_price,shelf_life_days,mhd_vs_verbrauch,seasonality_factor,temperature_sensitive,supplier_id,expiry_risk_level,base_expiry_rate,profit_margin
+P001,Vollmilch 3.8%,Molkereiprodukte,Milch,Bergwiese,1.29,1.83,13,Verbrauchsdatum,1.29,True,SUP18,HIGH,0.12,0.422
+P002,Fettarme Milch 1.5%,Molkereiprodukte,Milch,Bergwiese,3.02,3.65,4,Verbrauchsdatum,1.1,True,SUP01,HIGH,0.107,0.21
+P003,Naturjoghurt,Molkereiprodukte,Joghurt,Bergwiese,1.61,2.25,11,Verbrauchsdatum,1.06,True,SUP09,HIGH,0.144,0.395
+P004,Fruchtjoghurt Erdbeere,Molkereiprodukte,Joghurt,Landlust,3.63,4.53,3,Verbrauchsdatum,0.82,True,SUP11,HIGH,0.134,0.248
+P005,Griechischer Joghurt,Molkereiprodukte,Joghurt,FrischMarkt,1.22,1.5,4,Verbrauchsdatum,0.91,True,SUP02,HIGH,0.168,0.229
+P006,Magerquark,Molkereiprodukte,Quark,Alpenhof,2.55,3.16,14,Verbrauchsdatum,1.14,True,SUP20,HIGH,0.174,0.237
+P007,Speisequark,Molkereiprodukte,Quark,Bergwiese,2.97,4.19,8,Verbrauchsdatum,1.32,True,SUP03,HIGH,0.104,0.411
+P008,Frischkäse,Molkereiprodukte,Käse,Landlust,4.02,5.28,6,Verbrauchsdatum,0.83,True,SUP12,HIGH,0.136,0.314
+P009,Deutsche Markenbutter,Molkereiprodukte,Butter,Alpenhof,3.31,4.67,6,Verbrauchsdatum,1.19,True,SUP06,HIGH,0.155,0.411
+P010,Schwarzbrot,Backwaren,Brot,Kornmühle,2.51,3.14,5,MHD,1.25,False,SUP02,VERY_HIGH,0.218,0.249
+P011,Vollkornbrot,Backwaren,Brot,Bäckerei Goldkorn,2.75,3.96,2,MHD,0.87,False,SUP19,VERY_HIGH,0.22,0.442
+P012,Weißbrot,Backwaren,Brot,FrischMarkt Bäckerei,1.19,1.61,3,MHD,0.81,False,SUP05,VERY_HIGH,0.268,0.35
+P013,Sonntagsbrötchen,Backwaren,Brötchen,FrischMarkt Bäckerei,2.55,3.47,2,MHD,1.42,False,SUP13,VERY_HIGH,0.255,0.362
+P014,Körnerbrötchen,Backwaren,Brötchen,Bäckerei Goldkorn,1.21,1.81,3,MHD,1.3,False,SUP04,VERY_HIGH,0.231,0.499
+P015,Apfelkuchen,Backwaren,Kuchen,Bäckerei Goldkorn,2.25,3.23,2,MHD,1.01,False,SUP20,VERY_HIGH,0.222,0.438
+P016,Streuselkuchen,Backwaren,Kuchen,Bäckerei Goldkorn,2.0,2.98,4,MHD,1.24,False,SUP04,VERY_HIGH,0.266,0.491
+P017,Schwarzbrot,Backwaren,Gebäck,Backstube Hansen,2.56,3.66,5,MHD,1.05,False,SUP15,VERY_HIGH,0.214,0.431
+P018,Vollkornbrot,Backwaren,Gebäck,Kornmühle,3.08,4.51,1,MHD,1.11,False,SUP04,VERY_HIGH,0.206,0.463
+P019,Weißbrot,Backwaren,Gebäck,Backstube Hansen,2.8,3.79,3,MHD,1.31,False,SUP18,VERY_HIGH,0.2,0.352
+P020,Äpfel Elstar,Frischware,Obst,Regional,5.58,7.7,10,MHD,1.44,True,SUP10,VERY_HIGH,0.229,0.38
+P021,Bananen,Frischware,Obst,Regional,1.28,1.87,5,MHD,1.29,True,SUP03,VERY_HIGH,0.275,0.463
+P022,Erdbeeren,Frischware,Obst,Bio Sonnenhof,4.82,5.97,10,MHD,0.91,True,SUP20,VERY_HIGH,0.228,0.239
+P023,Äpfel Elstar,Frischware,Gemüse,Bio Sonnenhof,5.81,8.59,8,MHD,1.27,True,SUP13,VERY_HIGH,0.256,0.479
+P024,Bananen,Frischware,Gemüse,Bio Sonnenhof,3.18,4.31,7,MHD,0.75,True,SUP01,VERY_HIGH,0.192,0.355
+P025,Erdbeeren,Frischware,Gemüse,Regional,2.14,2.71,10,MHD,0.88,True,SUP02,VERY_HIGH,0.187,0.266
+P026,Äpfel Elstar,Frischware,Salate,Bio Sonnenhof,1.34,1.7,7,MHD,1.13,True,SUP19,VERY_HIGH,0.247,0.271
+P027,Bananen,Frischware,Salate,Regional,2.2,2.95,9,MHD,0.78,True,SUP14,VERY_HIGH,0.221,0.342
+P028,Erdbeeren,Frischware,Salate,Regional,3.11,4.17,7,MHD,0.75,True,SUP11,VERY_HIGH,0.253,0.34
+P029,Äpfel Elstar,Frischware,Kräuter,FrischMarkt,2.23,2.8,3,MHD,0.85,True,SUP15,VERY_HIGH,0.225,0.257
+P030,Bananen,Frischware,Kräuter,Regional,5.36,6.55,5,MHD,0.74,True,SUP18,VERY_HIGH,0.261,0.223
+P031,Erdbeeren,Frischware,Kräuter,Bio Sonnenhof,5.83,8.62,2,MHD,1.03,True,SUP16,VERY_HIGH,0.265,0.478
+P032,Rinderhackfleisch,Fleisch,Rind,Fleischerei Meister,11.64,17.12,3,Verbrauchsdatum,1.49,True,SUP09,EXTREME,0.275,0.471
+P033,Schweinekoteletts,Fleisch,Schwein,FrischMarkt Metzgerei,10.84,13.94,8,Verbrauchsdatum,0.82,True,SUP10,EXTREME,0.354,0.286
+P034,Rinderhackfleisch,Fleisch,Geflügel,Geflügelhof Grün,12.68,17.42,3,Verbrauchsdatum,0.75,True,SUP19,EXTREME,0.331,0.374
+P035,Schweinekoteletts,Fleisch,Geflügel,Fleischerei Meister,8.02,11.68,5,Verbrauchsdatum,1.38,True,SUP03,EXTREME,0.274,0.456
+P036,Hähnchenbrust,Fleisch,Geflügel,Landmetzger Koch,3.67,5.35,6,Verbrauchsdatum,1.16,True,SUP02,EXTREME,0.311,0.459
+P037,Bratwurst,Fleisch,Wurst,Geflügelhof Grün,3.81,5.32,6,Verbrauchsdatum,1.45,True,SUP07,EXTREME,0.335,0.397
+P038,Leberwurst,Fleisch,Wurst,Geflügelhof Grün,10.15,12.91,7,Verbrauchsdatum,1.07,True,SUP03,EXTREME,0.309,0.272
+P039,Kartoffelsalat,Feinkost,Aufschnitt,Delikatessen Richter,4.01,6.01,3,MHD,1.13,True,SUP17,HIGH,0.18,0.5
+P040,Nudelsalat,Feinkost,Aufschnitt,Delikatessen Richter,2.22,2.9,7,MHD,1.0,True,SUP06,HIGH,0.106,0.305
+P041,Thunfischsalat,Feinkost,Aufschnitt,FrischMarkt Feinkost,6.08,8.58,10,MHD,1.12,True,SUP18,HIGH,0.149,0.411
+P042,Kartoffelsalat,Feinkost,Salate,Feinkost Bergmann,6.61,8.14,7,MHD,0.79,True,SUP04,HIGH,0.17,0.231
+P043,Nudelsalat,Feinkost,Salate,Feinkost Bergmann,2.34,3.01,11,MHD,0.86,True,SUP09,HIGH,0.117,0.285
+P044,Thunfischsalat,Feinkost,Salate,Delikatessen Richter,4.18,6.15,11,MHD,1.21,True,SUP09,HIGH,0.168,0.472
+P045,Antipasti Gemüse,Feinkost,Antipasti,Feinkost Bergmann,1.51,2.16,3,MHD,0.83,True,SUP15,HIGH,0.151,0.431
