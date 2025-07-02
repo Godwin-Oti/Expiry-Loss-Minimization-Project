@@ -720,6 +720,7 @@ def main():
     # Generate inventory and sales data
     inventory_df, sales_df = generate_inventory_and_sales(products_df, stores_df, external_df)
 
+
     # Generate supplier performance data
     supplier_performance_df = generate_supplier_performance(products_df)
 
