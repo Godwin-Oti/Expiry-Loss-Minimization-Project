@@ -98,9 +98,9 @@ By implementing the proposed data-driven strategies, FrischMarkt can expect subs
 
 | Strategy                   | Estimated Savings                                       |
 | -------------------------- | ------------------------------------------------------- |
-| **Demand-Driven Ordering** | An estimated 15-20% reduction in current expiry losses, potentially saving €700,000 - €900,000 annually |
-| **Optimized Markdowns**    | An additional €150,000 - €250,000 in recovered revenue annually from items that would otherwise expire completely |
-| **Enhanced Operations & Supplier Review**  | A projected 5-7% reduction in overall expiry losses, translating to €200,000 - €300,000 annually |
+| **Demand-Driven Ordering** | An estimated 10-15% reduction in current expiry losses, potentially saving €500,000 - €800,000 annually |
+| **Optimized Markdowns**    | An additional €200,000 - €400,000 in recovered revenue annually from items that would otherwise expire completely |
+| **Enhanced Operations & Supplier Review**  | A projected 5-8% reduction in overall expiry losses, translating to €250,000 - €450,000 annually |
 
 ---
 
