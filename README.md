@@ -76,7 +76,7 @@ This repository presents a comprehensive data analysis project aimed at mitigati
 
 * **📈 Model Performance:**
 
-  * **LightGBM**:
+  * **Random Forest Regressor**:
 
     * R² ≈ **0.69**
     * MAE ≈ **11.9 units**
@@ -117,7 +117,6 @@ By implementing the proposed data-driven strategies, FrischMarkt can expect subs
 * **Models Used:**
 
   * Tuned `RandomForestRegressor`
-  * `LightGBM Regressor`
 * **Feature Engineering:**
 
   * Time-series lags
