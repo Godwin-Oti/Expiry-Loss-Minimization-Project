@@ -1,0 +1,6 @@
+[theme]
+primaryColor="#4CAF50"
+backgroundColor="#1A1A1A"
+secondaryBackgroundColor="#2C2C2C"
+textColor="#E0E0E0"
+font="sans serif" # Or "Inter", "Roboto" if you have them installed/linked

@@ -1,8 +1,9 @@
-streamlit
-pandas
-numpy
-matplotlib
-seaborn
-plotly
-scikit-learn  # or relevant ML lib
-joblib        # or pickle, depending on how you saved models
+pandas==2.0.3
+numpy==1.26.4
+scikit-learn==1.2.2
+plotly==5.15.0
+streamlit==1.24.0
+joblib==1.3.2
+faker==18.11.0
+matplotlib==3.7.2
+seaborn==0.12.2
