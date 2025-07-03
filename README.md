@@ -1,4 +1,4 @@
-# 🥬 FrischMarkt Expiry Loss Analysis: Optimizing Fresh Food Inventory
+# 🍎FrischMarkt Expiry Loss Analysis: Optimizing Fresh Food Inventory🥬
 
 ## 📊 Project Overview
 
