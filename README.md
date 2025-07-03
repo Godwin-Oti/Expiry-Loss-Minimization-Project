@@ -1,4 +1,4 @@
-# 🥬 FrischMarkt Expiry Loss Analysis: Optimizing Fresh Food Inventory
+# 🍎FrischMarkt Expiry Loss Analysis: Optimizing Fresh Food Inventory🥬
 
 ## 📊 Project Overview
 
@@ -53,10 +53,11 @@ This repository presents a comprehensive data analysis project aimed at mitigati
 
 * **🚨 Problem Products:**
 
-  * **Beef Mince (`Rinderhackfleisch`)**: > €23.3M
-  * **Strawberries (`Erdbeeren`)**: > €22.5M
+  * **Beef Mince (`Rinderhackfleisch`)**: > €1.3M
+  * **Strawberries (`Erdbeeren`)**: > €0.6M
+  * **Pork Chops** (`Schweinekoteletts`) > €0.6M
 
-  > *These two products alone dominate loss volumes.*
+  > *These three products alone dominate loss volumes.*
 
 * **🏬 Underperforming Stores:**
 
@@ -75,7 +76,7 @@ This repository presents a comprehensive data analysis project aimed at mitigati
 
 * **📈 Model Performance:**
 
-  * **LightGBM**:
+  * **Random Forest Regressor**:
 
     * R² ≈ **0.69**
     * MAE ≈ **11.9 units**
@@ -97,9 +98,9 @@ By implementing the proposed data-driven strategies, FrischMarkt can expect subs
 
 | Strategy                   | Estimated Savings                                       |
 | -------------------------- | ------------------------------------------------------- |
-| **Demand-Driven Ordering** | An estimated 15-20% reduction in current expiry losses, potentially saving €700,000 - €900,000 annually |
-| **Optimized Markdowns**    | An additional €150,000 - €250,000 in recovered revenue annually from items that would otherwise expire completely |
-| **Enhanced Operations & Supplier Review**  | A projected 5-7% reduction in overall expiry losses, translating to €200,000 - €300,000 annually |
+| **Demand-Driven Ordering** | An estimated 10-15% reduction in current expiry losses, potentially saving €500,000 - €800,000 annually |
+| **Optimized Markdowns**    | An additional €200,000 - €400,000 in recovered revenue annually from items that would otherwise expire completely |
+| **Enhanced Operations & Supplier Review**  | A projected 5-8% reduction in overall expiry losses, translating to €250,000 - €450,000 annually |
 
 ---
 
@@ -116,7 +117,6 @@ By implementing the proposed data-driven strategies, FrischMarkt can expect subs
 * **Models Used:**
 
   * Tuned `RandomForestRegressor`
-  * `LightGBM Regressor`
 * **Feature Engineering:**
 
   * Time-series lags
