@@ -32,7 +32,9 @@ def load_and_prepare_data():
         external_df = pd.read_csv(os.path.join(DATA_DIR, 'external_factors.csv'))
         inventory_df = pd.read_csv(os.path.join(DATA_DIR, 'inventory_daily.csv'))
         sales_df = pd.read_csv(os.path.join(DATA_DIR, 'sales_transactions.csv'))
+        # ADDED: Load supplier_df
         supplier_df = pd.read_csv(os.path.join(DATA_DIR, 'supplier_performance.csv'))
+        print("✅ All datasets loaded successfully.")
     except FileNotFoundError as e:
         st.error(f"Error loading data: {e}. Make sure 'frischmarkt_data' directory exists with all CSVs and you've run the data generator.")
         st.stop() # Stop the app if data is not found
@@ -47,6 +49,7 @@ def load_and_prepare_data():
         if col in products_df.columns:
             products_df[col] = pd.to_numeric(products_df[col], errors='coerce').fillna(0)
 
+    # IMPORTANT: Ensure loss columns are numeric and filled BEFORE merging or any calculations
     for col in ['beginning_inventory', 'received_inventory', 'units_sold', 'units_expired', 'units_marked_down',
                 'expiry_loss_eur', 'markdown_loss_eur', 'total_loss_eur', 'expiry_rate']:
         if col in inventory_df.columns:
@@ -139,7 +142,6 @@ date_range = st.sidebar.slider(
 filtered_analysis_df = analysis_df[(analysis_df['date'] >= date_range[0]) & (analysis_df['date'] <= date_range[1])]
 filtered_sales_df = sales_df[(sales_df['date'] >= date_range[0]) & (sales_df['date'] <= date_range[1])]
 
-
 # --- Create Tabs ---
 tab1, tab2, tab3, tab4 = st.tabs([
     "📊 Overall Summary",
@@ -183,6 +185,9 @@ with tab1:
                                  text_auto=False) # Removed text_auto
     fig_loss_breakdown.update_traces(marker_line_width=1, marker_line_color='black')
     st.plotly_chart(fig_loss_breakdown, use_container_width=True)
+    # Added descriptive context for Loss Breakdown chart
+    st.info("This bar chart visually represents the proportion of total losses attributed to expiry versus markdowns. It provides an immediate understanding of which type of loss is more prevalent and requires more urgent attention.")
+
 
     st.subheader("Daily Loss and Revenue Trends")
     daily_loss = filtered_analysis_df.groupby('date')['total_loss_eur'].sum().reset_index()
@@ -196,6 +201,8 @@ with tab1:
                              hovermode="x unified",
                              legend=dict(x=0.01, y=0.99, bordercolor="Black", borderwidth=1))
     st.plotly_chart(fig_trends, use_container_width=True)
+    # Added descriptive context for Daily Loss and Revenue Trends chart
+    st.info("This line chart displays the daily fluctuations in total losses and total revenue over the selected period. It helps in identifying trends, peak loss periods, and the overall financial health of the business.")
 
 
 # --- Tab 2: Loss Hotspots ---
@@ -276,6 +283,51 @@ with tab2:
     fig_top_products.update_traces(marker_line_width=1, marker_line_color='black')
     st.plotly_chart(fig_top_products, use_container_width=True)
     st.info("This chart identifies the top 10 individual products responsible for the highest expiry losses. The product highlighted in red is the single largest contributor to expired inventory costs. For products like Rinderhackfleisch, high expiry loss is often due to a combination of short shelf life, high purchase volume, and fluctuating demand, making precise inventory management crucial.")
+
+    # ADDED: Expiry vs. Markdown Loss for Top Loss Products
+    st.subheader("Expiry vs. Markdown Loss for Top Loss Products")
+    N_top_products_for_breakdown = 10
+    top_products_total_loss = (
+        filtered_analysis_df.groupby('product_name')
+        .agg(
+            total_expiry_loss=('expiry_loss_eur', 'sum'),
+            total_markdown_loss=('markdown_loss_eur', 'sum'),
+            total_overall_loss=('total_loss_eur', 'sum') # Get total loss to sort
+        )
+        .sort_values(by='total_overall_loss', ascending=False) # Sort by total overall loss
+        .head(N_top_products_for_breakdown)
+        .reset_index()
+    )
+
+    if top_products_total_loss.empty:
+        st.info("No top loss products found in the selected date range to display expiry vs. markdown breakdown.")
+    else:
+        # Create Plotly grouped bar chart
+        fig_expiry_markdown_breakdown = go.Figure(data=[
+            go.Bar(
+                name='Expiry Loss (€)',
+                x=top_products_total_loss['product_name'],
+                y=top_products_total_loss['total_expiry_loss'],
+                marker_color='#DC3545' # Red for expiry
+            ),
+            go.Bar(
+                name='Markdown Loss (€)',
+                x=top_products_total_loss['product_name'],
+                y=top_products_total_loss['total_markdown_loss'],
+                marker_color='#FFC107' # Yellow/Orange for markdown
+            )
+        ])
+
+        fig_expiry_markdown_breakdown.update_layout(
+            barmode='group', # Grouped bars
+            title=f'Expiry vs. Markdown Loss for Top {N_top_products_for_breakdown} Products',
+            xaxis_title='Product Name',
+            yaxis_title='Loss Amount (€)',
+            legend=dict(x=0.01, y=0.99, bordercolor="Black", borderwidth=1)
+        )
+        fig_expiry_markdown_breakdown.update_traces(marker_line_width=1, marker_line_color='black')
+        st.plotly_chart(fig_expiry_markdown_breakdown, use_container_width=True)
+        st.info("This chart breaks down the total loss for the top 10 loss-generating products into their expiry loss and markdown loss components. It helps identify whether a product's high overall loss is primarily driven by expiration or by price reductions.")
 
 
     st.subheader("Overall Expiry Rate by Management Quality")
@@ -399,7 +451,7 @@ with tab2:
         st.info("No temperature-sensitive product data available in the selected date range.")
 
     st.subheader("Inventory vs Expired/Markdown Units Over Time for Top Loss Products")
-    N = 6 # Number of top loss products to display
+    N = 4 # Number of top loss products to display
     top_loss_products = (
         filtered_analysis_df.groupby(['product_id', 'product_name'])['total_loss_eur']
         .sum()
@@ -475,7 +527,18 @@ with tab2:
 with tab3:
     st.header("📈 Demand Forecasting Model Insights")
 
-    if best_rf_model is not None and not rf_metrics_df.empty and not rf_importances.empty and not predictions_df.empty:
+    # Filter predictions_df to the selected date range
+    # Moved this outside the conditional block to ensure it's always defined
+    if not predictions_df.empty:
+        filtered_predictions_df = predictions_df[
+            (predictions_df['date'] >= date_range[0]) & 
+            (predictions_df['date'] <= date_range[1])
+        ]
+    else:
+        filtered_predictions_df = pd.DataFrame() # Ensure it's an empty DataFrame if predictions_df is empty
+
+
+    if best_rf_model is not None and not rf_metrics_df.empty and not filtered_predictions_df.empty:
         st.subheader("Model Performance Metrics (RandomForestRegressor)")
         col_mae, col_mape, col_r2 = st.columns(3)
         with col_mae:
@@ -522,12 +585,6 @@ with tab3:
 
         st.subheader("Actual vs. Predicted Sales Trend")
         
-        # Filter predictions_df to the selected date range
-        filtered_predictions_df = predictions_df[
-            (predictions_df['date'] >= date_range[0]) & 
-            (predictions_df['date'] <= date_range[1])
-        ]
-
         # Get unique products and stores from the filtered predictions
         available_products = filtered_predictions_df['product_name'].unique()
         available_stores = filtered_predictions_df['store_name'].unique()
@@ -558,6 +615,8 @@ with tab3:
                 st.info("No data available for the selected product and store in the predictions within the chosen date range.")
         else:
             st.info("No prediction data available for plotting within the selected date range. Please adjust the global date filter or ensure the model training script has generated predictions for this range.")
+    else:
+        st.info("Demand forecasting model insights are not available. Please ensure the model and its artifacts are correctly loaded and data is available for the selected date range.")
 
 
 # --- Tab 4: Recommendations & Impact ---
