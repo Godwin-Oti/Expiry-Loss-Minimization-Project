@@ -7,10 +7,12 @@ import os
 from datetime import datetime, timedelta
 from plotly.subplots import make_subplots # Import for subplots
 import joblib # For loading the saved model
+# Removed: import matplotlib.pyplot as plt
+# Removed: import seaborn as sns
 
 # --- Streamlit App Configuration (MUST BE FIRST) ---
 st.set_page_config(layout="wide", page_title="FrischMarkt Loss Optimization Dashboard", initial_sidebar_state="expanded")
-st.title("🍎 FrischMarkt Fresh Food Loss Optimization Dashboard")
+st.title("🍎 FrischMarkt Fresh Food Loss Optimization Dashboard 🥬")
 st.markdown("---")
 
 # --- Configuration & Data Loading ---
@@ -21,11 +23,13 @@ RF_IMPORTANCES_FILE = os.path.join(DATA_DIR, 'rf_feature_importances.csv')
 RF_METRICS_FILE = os.path.join(DATA_DIR, 'rf_model_metrics.csv')
 RF_PREDICTIONS_FILE = os.path.join(DATA_DIR, 'rf_predictions.csv')
 
+# Define path for the PDF Executive Summary (assuming it's in the DATA_DIR)
+EXECUTIVE_SUMMARY_PDF_PATH = os.path.join(DATA_DIR, 'FrischMarkt_Executive_Summary.pdf')
+
 
 @st.cache_data # Cache data loading and preprocessing to improve performance
 def load_and_prepare_data():
     """Loads, preprocesses, merges data, and prepares it for dashboard display."""
-    st.info("Loading and preparing data...")
     try:
         products_df = pd.read_csv(os.path.join(DATA_DIR, 'products_master.csv'))
         stores_df = pd.read_csv(os.path.join(DATA_DIR, 'stores_master.csv'))
@@ -34,7 +38,6 @@ def load_and_prepare_data():
         sales_df = pd.read_csv(os.path.join(DATA_DIR, 'sales_transactions.csv'))
         # ADDED: Load supplier_df
         supplier_df = pd.read_csv(os.path.join(DATA_DIR, 'supplier_performance.csv'))
-        print("✅ All datasets loaded successfully.")
     except FileNotFoundError as e:
         st.error(f"Error loading data: {e}. Make sure 'frischmarkt_data' directory exists with all CSVs and you've run the data generator.")
         st.stop() # Stop the app if data is not found
@@ -99,7 +102,6 @@ products_df, stores_df, external_df, inventory_df, sales_df, analysis_df, demand
 def load_trained_model(model_path):
     """Loads a pre-trained machine learning model."""
     if os.path.exists(model_path):
-        st.info("Loading pre-trained RandomForest model...")
         return joblib.load(model_path)
     else:
         st.error(f"Model file not found at {model_path}. Please run 'train_demand_model.py' first.")
@@ -112,7 +114,6 @@ def load_model_artifacts(importances_path, metrics_path, predictions_path):
         rf_importances = pd.read_csv(importances_path, index_col=0).squeeze('columns')
         rf_metrics_df = pd.read_csv(metrics_path, index_col=0)
         predictions_df = pd.read_csv(predictions_path, parse_dates=['date'])
-        st.info("Loaded model feature importances, metrics, and predictions.")
         return rf_importances, rf_metrics_df, predictions_df
     except FileNotFoundError as e:
         st.error(f"Model artifact file not found: {e}. Please run 'train_demand_model.py' first.")
@@ -142,12 +143,171 @@ date_range = st.sidebar.slider(
 filtered_analysis_df = analysis_df[(analysis_df['date'] >= date_range[0]) & (analysis_df['date'] <= date_range[1])]
 filtered_sales_df = sales_df[(sales_df['date'] >= date_range[0]) & (sales_df['date'] <= date_range[1])]
 
+# --- Add Buttons to Sidebar ---
+st.sidebar.markdown("---")
+st.sidebar.subheader("Project Resources")
+
+# Executive Summary content (pulled from the executive summary template)
+executive_summary_content = """
+# FrischMarkt Expiry Loss Analysis: Executive Summary & Recommendations
+
+**Date:** July 03, 2025
+**Author:** [Your Name/Team]
+**Project Title:** Optimizing Fresh Food Inventory to Minimize Expiry Loss for FrischMarkt
+
+## 1. Executive Summary
+
+This report presents the findings and recommendations from a comprehensive data analysis project focused on understanding and mitigating fresh food expiry and markdown losses at FrischMarkt. Our analysis of 2023 operational data reveals that these losses are a significant financial burden, amounting to approximately **39.20% of total revenue**, or **€5,779,156.94** annually. This level of loss is unsustainable and points to critical inefficiencies in current inventory management practices.
+
+Through the development of a data-driven demand forecasting model, we have identified key drivers of demand volatility and inventory discrepancies. This project outlines actionable strategies to transition FrischMarkt from reactive loss management to a proactive, optimized inventory system. By implementing the proposed recommendations, FrischMarkt can expect to achieve substantial cost savings, improve operational efficiency, and move towards a more financially stable future.
+
+## 2. Project Objective
+
+The primary objective of this project was to:
+
+* Quantify the scale and specific areas of fresh food expiry and markdown losses.
+
+* Identify the underlying drivers of demand fluctuations and inventory imbalances.
+
+* Develop a robust demand forecasting model to inform precise ordering.
+
+* Formulate data-driven, actionable recommendations to minimize losses, reduce waste, and enhance FrischMarkt's overall profitability.
+
+## 3. Key Findings
+
+Our in-depth analysis of FrischMarkt's 2023 data revealed critical insights into the causes and patterns of fresh food losses:
+
+### 3.1 Overall Loss Landscape
+
+* **Total Annual Losses:** In 2023, FrischMarkt incurred **€5,779,156.94** in combined expiry and markdown losses, representing **39.20%** of its total revenue of **€14,740,876.17**.
+
+* **Loss Composition:** Expiry losses (**€4,701,951.56**) significantly outweigh markdown losses (**€1,077,205.38**), indicating that a substantial portion of inventory is expiring before it can even be sold at a discount.
+
+### 3.2 Loss Hotspots
+
+* **Product Categories:** The highest losses are concentrated in the "Fleisch" (Meat), "Frischware" (Fresh Produce), and "Backwaren" (Baked Goods) categories, collectively accounting for the vast majority of total losses.
+
+* **Top Products:** "Rinderhackfleisch" (Beef Mince), across its different product IDs, cumulatively represents the single largest overall loss driver, with a combined total loss (expiry + markdown) exceeding **€1.3 million**. It is closely followed by "Erdbeeren" (Strawberries) and "Schweinekoteletts" (Pork Chops), both with combined total losses exceeding **€600,000**. Other high-loss items include "Äpfel Elstar," "Vollkornbrot," "Leberwurst," "Sonntagsbrötchen," "Bananen," "Weißbrot," and "Kartoffelsalat."
+
+    **Insight:** For these top products, expiry loss is the overwhelming component, indicating that current markdown strategies are not effectively intercepting spoilage before it becomes a complete write-off. The significant difference between expiry and markdown portions highlights a critical need for upstream inventory optimization.
+
+* **Store Performance:** Based on the current data, "FrischMarkt Brandenburg" (Store S005) and "FrischMarkt Kreuzberg" (Store S004) are the stores with the highest total losses (approximately **€1.13 million** and **€1.11 million** respectively for the entire year).
+
+* **Management Quality Impact:** Stores categorized with "Poor" management quality exhibit the highest average expiry rate (over **41.51%**), significantly higher than "Excellent" (**24.19%**) or "Good" (**29.87%**) quality stores. This highlights a direct correlation between operational management and waste.
+
+### 3.3 Demand Forecasting Model Insights
+
+Our Demand Forecasting Model, built using a RandomForest Regressor, achieved an **R-squared (R2) score of 0.6789** and a **Mean Absolute Error (MAE) of 11.97 units**. This indicates that the model explains a substantial portion of demand variability and provides a reasonable average prediction error, especially considering the volatility of perishable goods. The Mean Absolute Percentage Error (MAPE) was 38.18%.
+
+Key drivers of units sold (demand) as identified by the model's feature importances include:
+
+* **Inventory Availability:** `received_inventory` (0.487) and `beginning_inventory` (0.204) are overwhelmingly the most dominant factors. This strongly suggests that sales are heavily influenced by the sheer volume of product available, indicating potential overstocking driving both sales and subsequent expiry.
+
+* **Lagged Sales & Recent Trends:** Past sales patterns (`units_sold_lag1` (0.032), `rolling_mean_sales_7d` (0.026), `units_sold_lag7` (0.015), `units_sold_lag30` (0.012)) are highly predictive of future demand, capturing short-term trends and weekly cycles.
+
+* **Product Characteristics:** `shelf_life_days` (0.072) and `profit_margin` (0.016) also play a significant role, highlighting the inherent perishability and economic value of products.
+
+* **Seasonality:** Time-based features such as `day_of_week_num` (0.014, 0.013) and `day_of_week_Saturday` (0.010) play a consistent role, confirming predictable fluctuations in demand based on the day of the week.
+
+* **External Factors:** `temperature_high_c` (0.009) and `temperature_low_c` (0.007) demonstrate that environmental conditions also influence demand, particularly for temperature-sensitive items.
+
+* **Base Expiry Rate:** `base_expiry_rate` (0.007) also contributes to the model's understanding of demand.
+
+## 4. Strategic Recommendations
+
+Based on our findings, we propose the following data-driven strategies to minimize expiry loss and enhance FrischMarkt's profitability:
+
+### 4.1 Implement a Granular Demand-Driven Ordering System
+
+* **Recommendation:** Develop and integrate an automated ordering system that leverages the demand forecasting model's predictions. This system should generate daily or weekly order recommendations for each product at each store, dynamically adjusting quantities based on forecasted sales, product-specific shelf life, and current inventory levels.
+
+* **Action Plan:**
+
+    * **Phase 1 (Pilot):** Roll out the new ordering system for the top 5 high-loss products (e.g., Rinderhackfleisch, Erdbeeren) in 2-3 struggling stores (e.g., FrischMarkt Spandau).
+
+    * **Phase 2 (Expansion):** Gradually expand to more products and stores, refining the model and processes based on pilot results.
+
+* **Quantified Impact:** By reducing overstocking, we estimate a **10-15% reduction in expiry loss** for targeted products, potentially saving FrischMarkt an additional **€500,000 - €800,000 annually**. This aligns inventory closer to actual demand, preventing perishable goods from sitting unsold until expiry.
+
+### 4.2 Optimize Markdown Strategies (Rules-Based with Forecasting Input)
+
+* **Recommendation:** While full markdown optimization requires more complex modeling over time, immediate improvements can be made by implementing rules-based markdown triggers informed by demand forecasts and days-to-expiry. For example, high-risk items with less than 2 days of shelf life and an inventory level exceeding 150% of the next day's forecasted demand should be immediately marked down by 25-40%.
+
+* **Action Plan:**
+
+    * Develop clear guidelines for store managers on markdown timing and depth based on product category, remaining shelf life, and predicted demand patterns.
+
+    * Monitor the effectiveness of these new markdown rules in converting at-risk inventory into sales.
+
+* **Quantified Impact:** Proactive and smarter markdowns could reduce total expiry value and increase recovered revenue by **€200,000 - €400,000 annually**, shifting loss from total write-off to partial recovery.
+
+### 4.3 Enhance Operational Excellence and Supplier Review
+
+* **Recommendation:** Address the human and process factors contributing to losses. Implement targeted training programs for store staff, especially in stores identified with lower management quality, focusing on best practices for stock rotation (FIFO), temperature control, and accurate inventory counts. Simultaneously, initiate a review of supplier performance, prioritizing those who consistently deliver products with longer actual shelf lives.
+
+* **Action Plan:**
+
+    * Conduct workshops on "Best Practices in Perishable Inventory Management" for store managers.
+
+    * Establish clear KPIs for stock rotation and management quality, incorporating these into performance reviews.
+
+    * Collaborate with key suppliers to improve delivery freshness and reduce instances of short-dated products.
+
+* **Quantified Impact:** Improved efficiency and supplier quality projected to reduce overall expiry losses by an additional **5-8%**, translating to **€250,000 - €450,000 annually**, complementing the gains from demand forecasting.
+
+## 5. Conclusion & Roadmap
+
+FrischMarkt faces a significant challenge with fresh food losses, but this analysis provides a clear, data-driven pathway to recovery. By embracing a robust demand forecasting model for inventory optimization and supplementing it with refined markdown strategies and operational improvements, the business can dramatically reduce its financial leakage.
+
+The recommended strategies form a roadmap for sustainable growth:
+
+1.  **Pilot and Scale** the demand-driven ordering system.
+
+2.  **Iterate and Refine** markdown strategies.
+
+3.  **Invest in Training** and foster a culture of data-informed decision-making.
+
+4.  **Continuously Monitor** model performance and adjust based on new data and market dynamics.
+
+This structured notebook format provides a clear flow for your analysis, making it easy to follow and understand. Remember to populate the insights and recommendations with the actual findings from running your code. Good luck!
+"""
+
+# Add button for PDF download
+# Define path for the PDF Executive Summary (assuming it's in the DATA_DIR)
+EXECUTIVE_SUMMARY_PDF_PATH = os.path.join(DATA_DIR, 'FrischMarkt Expiry Loss Analysis_ Executive Summary.pdf')
+
+if os.path.exists(EXECUTIVE_SUMMARY_PDF_PATH):
+    with open(EXECUTIVE_SUMMARY_PDF_PATH, "rb") as pdf_file:
+        PDF_bytes = pdf_file.read()
+    st.sidebar.download_button(
+        label="⬇️ Download Executive Summary (PDF)",
+        data=PDF_bytes,
+        file_name="FrischMarkt Expiry Loss Analysis_ Executive Summary.pdf", # Also update file_name here
+        mime="application/pdf"
+    )
+else:
+    st.sidebar.info("Executive Summary PDF not found. Please ensure 'FrischMarkt_Executive_Summary.pdf' is in the 'frischmarkt_data' folder.")
+
+
+st.sidebar.link_button(
+    label="🔗 Visit GitHub Repo",
+    url="https://github.com/Godwin-Oti/FrischMarkt-Expiry-Loss-Minimization-Project", # IMPORTANT: Replace with your actual GitHub repo link
+    help="Click to visit the project's GitHub repository for code and documentation."
+)
+
+st.sidebar.link_button(
+    label="💼 Visit My LinkedIn",
+    url="https://www.linkedin.com/in/godwin-oti/", # IMPORTANT: Replace with your actual LinkedIn profile link
+    help="Connect with me on LinkedIn!"
+)
+
+
 # --- Create Tabs ---
 tab1, tab2, tab3, tab4 = st.tabs([
-    "📊 Overall Summary",
-    "🔥 Loss Hotspots",
-    "📈 Demand Forecasting Insights",
-    "💡 Recommendations & Impact"
+    " Overall Summary",
+    " Loss Hotspots",
+    " Demand Forecasting Insights",
+    " Recommendations & Impact"
 ])
 
 # --- Tab 1: Overall Summary ---
@@ -201,7 +361,7 @@ with tab1:
                              hovermode="x unified",
                              legend=dict(x=0.01, y=0.99, bordercolor="Black", borderwidth=1))
     st.plotly_chart(fig_trends, use_container_width=True)
-    # Added descriptive context for Daily Loss and Revenue Trends chart
+    # Added descriptive context for Loss Breakdown chart
     st.info("This line chart displays the daily fluctuations in total losses and total revenue over the selected period. It helps in identifying trends, peak loss periods, and the overall financial health of the business.")
 
 
@@ -448,67 +608,102 @@ with tab2:
         st.plotly_chart(fig_temp_expiry, use_container_width=True)
         st.info("This scatter plot shows the relationship between daily high temperatures and expiry rates for temperature-sensitive products. Larger circles indicate more expired units.")
     else:
-        st.info("No temperature-sensitive product data available in the selected date range.")
+        st.info("No data available for Temperature-Sensitive Product Expiry Rate in the selected date range.")
 
+    # REVERTED TO PLOTLY: Inventory vs Expired/Markdown Units Over Time for Top Loss Products
     st.subheader("Inventory vs Expired/Markdown Units Over Time for Top Loss Products")
-    N = 4 # Number of top loss products to display
-    top_loss_products = (
-        filtered_analysis_df.groupby(['product_id', 'product_name'])['total_loss_eur']
+    
+    # Determine the number of top loss products to display for inventory profiles
+    N_inventory_profiles = 6
+
+    # Get the product names of the top N total loss products from the filtered data
+    top_loss_product_names = (
+        filtered_analysis_df.groupby('product_name')['total_loss_eur']
         .sum()
         .sort_values(ascending=False)
-        .head(N)
-        .reset_index()
+        .head(N_inventory_profiles)
+        .index.tolist()
     )
-    top_loss_product_ids = top_loss_products['product_id'].tolist()
 
-    if not top_loss_product_ids:
+    if not top_loss_product_names:
         st.info("No top loss products found in the selected date range to display inventory profiles.")
     else:
+        # Get all product_ids that correspond to these top product names from the filtered data
+        # This is crucial because one product_name might have multiple product_ids
+        top_loss_product_ids_from_names = filtered_analysis_df[filtered_analysis_df['product_name'].isin(top_loss_product_names)]['product_id'].unique().tolist()
+
+        # Reshape data to long format for plotting multiple metrics with different colors
         inventory_profiles_long = (
-            filtered_analysis_df[filtered_analysis_df['product_id'].isin(top_loss_product_ids)]
+            filtered_analysis_df[filtered_analysis_df['product_id'].isin(top_loss_product_ids_from_names)]
             .groupby(['product_name', 'date'])[['beginning_inventory', 'units_expired', 'units_marked_down']]
             .sum()
             .reset_index()
             .melt(id_vars=['product_name', 'date'], var_name='Metric', value_name='Units')
         )
 
-        custom_palette = { # Consistent colors for these metrics
+        # Define a custom palette for clarity, consistent with Streamlit dashboard
+        custom_palette = {
             'beginning_inventory': '#636EFA', # Blue
             'units_expired': '#EF553B', # Red
             'units_marked_down': '#FECB52' # Yellow/Orange
         }
 
-        num_products = len(top_loss_product_ids)
+        # Create subplots for each top loss product using Plotly
+        num_products = len(top_loss_product_names)
         cols = 2
-        rows = (num_products + cols - 1) // cols
+        rows = (num_products + cols - 1) // cols # Calculate rows needed
 
         fig_inventory_profiles = make_subplots(
             rows=rows, cols=cols,
-            subplot_titles=[f"{name}" for name in inventory_profiles_long['product_name'].unique()],
+            subplot_titles=[f"{name}" for name in top_loss_product_names], # Use top_loss_product_names for titles
             vertical_spacing=0.15,
             horizontal_spacing=0.05
         )
 
-        for i, product_name in enumerate(inventory_profiles_long['product_name'].unique()):
+        for i, product_name in enumerate(top_loss_product_names):
             row = (i // cols) + 1
             col = (i % cols) + 1
             
-            product_data = inventory_profiles_long[inventory_profiles_long['product_name'] == product_name]
+            product_data = inventory_profiles_long[inventory_profiles_long['Metric'] == 'beginning_inventory']
+            product_data_expired = inventory_profiles_long[inventory_profiles_long['Metric'] == 'units_expired']
+            product_data_marked_down = inventory_profiles_long[inventory_profiles_long['Metric'] == 'units_marked_down']
 
-            for metric in ['beginning_inventory', 'units_expired', 'units_marked_down']:
-                metric_data = product_data[product_data['Metric'] == metric]
-                fig_inventory_profiles.add_trace(
-                    go.Scatter(
-                        x=metric_data['date'],
-                        y=metric_data['Units'],
-                        mode='lines',
-                        name=metric.replace('_', ' ').title(),
-                        line=dict(color=custom_palette[metric]),
-                        legendgroup=metric,
-                        showlegend=(i == 0)
-                    ),
-                    row=row, col=col
-                )
+            fig_inventory_profiles.add_trace(
+                go.Scatter(
+                    x=product_data[product_data['product_name'] == product_name]['date'],
+                    y=product_data[product_data['product_name'] == product_name]['Units'],
+                    mode='lines',
+                    name='Beginning Inventory',
+                    line=dict(color=custom_palette['beginning_inventory']),
+                    legendgroup='Beginning Inventory',
+                    showlegend=(i == 0) # Show legend only for the first subplot
+                ),
+                row=row, col=col
+            )
+            fig_inventory_profiles.add_trace(
+                go.Scatter(
+                    x=product_data_expired[product_data_expired['product_name'] == product_name]['date'],
+                    y=product_data_expired[product_data_expired['product_name'] == product_name]['Units'],
+                    mode='lines',
+                    name='Units Expired',
+                    line=dict(color=custom_palette['units_expired']),
+                    legendgroup='Units Expired',
+                    showlegend=(i == 0) # Show legend only for the first subplot
+                ),
+                row=row, col=col
+            )
+            fig_inventory_profiles.add_trace(
+                go.Scatter(
+                    x=product_data_marked_down[product_data_marked_down['product_name'] == product_name]['date'],
+                    y=product_data_marked_down[product_data_marked_down['product_name'] == product_name]['Units'],
+                    mode='lines',
+                    name='Units Marked Down',
+                    line=dict(color=custom_palette['units_marked_down']),
+                    legendgroup='Units Marked Down',
+                    showlegend=(i == 0) # Show legend only for the first subplot
+                ),
+                row=row, col=col
+            )
             fig_inventory_profiles.update_xaxes(title_text="Date", row=row, col=col)
             fig_inventory_profiles.update_yaxes(title_text="Units", row=row, col=col)
 
@@ -520,6 +715,7 @@ with tab2:
             legend=dict(x=0.01, y=0.99, bordercolor="Black", borderwidth=1)
         )
         st.plotly_chart(fig_inventory_profiles, use_container_width=True)
+
         st.info("This multi-panel chart visualizes the daily beginning inventory, units expired, and units marked down for the top loss-generating products. It helps identify overstocking issues and their direct impact on losses.")
 
 
@@ -640,8 +836,8 @@ with tab4:
 
     st.subheader("Roadmap for Implementation")
     st.markdown("""
-    * **Phase 1 (Pilot):** Roll out demand-driven ordering for top high-loss products (e.g., Vollkornbrot, Fleisch products) in 2-3 struggling stores.
-    * **Phase 2 (Expansion):** Gradually expand to more products/stores, refining the model and processes based on pilot results.
+    * **Phase 1 (Pilot):** Roll out demand-driven ordering for top high-loss products (e.g., "Rinderhackfleisch," "Erdbeeren," "Schweinekoteletts") in 2-3 struggling stores.
+    * **Phase 2 (Expansion):** Gradually expand to more products and stores, refining the model and processes based on pilot results.
     * **Continuous Improvement:** Regularly monitor model performance, update data, and adapt strategies. Integrate real-time inventory data for more agile adjustments.
     * **Training:** Provide comprehensive training for store staff on new tools and processes, emphasizing the importance of accurate inventory counts and adherence to new markdown policies.
     """)

@@ -1,0 +1,8 @@
+streamlit
+pandas
+numpy
+matplotlib
+seaborn
+plotly
+scikit-learn  # or relevant ML lib
+joblib        # or pickle, depending on how you saved models
