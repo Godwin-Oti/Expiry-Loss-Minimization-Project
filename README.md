@@ -53,10 +53,11 @@ This repository presents a comprehensive data analysis project aimed at mitigati
 
 * **🚨 Problem Products:**
 
-  * **Beef Mince (`Rinderhackfleisch`)**: > €23.3M
-  * **Strawberries (`Erdbeeren`)**: > €22.5M
+  * **Beef Mince (`Rinderhackfleisch`)**: > €1.3M
+  * **Strawberries (`Erdbeeren`)**: > €0.6M
+  * **Pork Chops** (`Schweinekoteletts`) > €0.6M
 
-  > *These two products alone dominate loss volumes.*
+  > *These three products alone dominate loss volumes.*
 
 * **🏬 Underperforming Stores:**
 
