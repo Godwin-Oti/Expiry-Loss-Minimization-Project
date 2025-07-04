@@ -750,7 +750,7 @@ with tab3:
 
         st.markdown("---")
 
-        st.subheader("Top 15 Feature Importances for Demand Prediction")
+        st.subheader("Top Feature Importances for Demand Prediction")
         
         # Highlight the highest feature importance: Green for highest, grey for others
         top_15_importances = rf_importances.nlargest(15)
@@ -768,7 +768,7 @@ with tab3:
             marker_color=colors_importances # Use the custom color list
         )])
         fig_importances.update_layout(
-            title='Top 15 Feature Importances for Units Sold Prediction',
+            title='Top Feature Importances for Units Sold Prediction',
             xaxis_title='Importance',
             yaxis_title='Feature',
             yaxis={'categoryorder':'total ascending'}
