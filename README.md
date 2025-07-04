@@ -14,17 +14,16 @@ This repository presents a comprehensive data analysis project aimed at mitigati
 
 ## ✨ Key Features & Components
 
-* **🔧 Data Generation**
+* **🔧 Data Generation:**
   A custom Python script (`enhanced_frischgenerator.py`) simulates realistic retail data — products, stores, weather, holidays, daily transactions — with a focus on replicating high-expiry scenarios.
 
-* **📈 Exploratory Data Analysis (EDA)**
+* **📈 Exploratory Data Analysis (EDA):**
   Deep dives into product/store-level losses, category trends, correlation studies (e.g., shelf life vs. losses), and external factor impacts.
 
-* **📊 Demand Forecasting Model**
-  Built and compared machine learning models:
+* **📊 Demand Forecasting Model:**
+  Built machine learning model:
 
   * `RandomForestRegressor` (with `RandomizedSearchCV` tuning)
-  * `LightGBM Regressor`
     Predictions made at the **product-store-day level**.
 
 * **✅ Actionable Recommendations**
@@ -141,7 +140,7 @@ cd [Expiry-Loss-Minimization-Project]
 ### 2. Install Dependencies
 
 ```bash
-pip install pandas numpy matplotlib seaborn scikit-learn lightgbm faker
+pip install pandas numpy matplotlib seaborn scikit-learn faker
 ```
 
 ### 3. Generate Data
