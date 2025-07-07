@@ -12,48 +12,49 @@ import joblib # For loading the saved model
 
 # --- Streamlit App Configuration (MUST BE FIRST) ---
 st.set_page_config(layout="wide", page_title="FrischMarkt Loss Optimization Dashboard", initial_sidebar_state="expanded")
-st.title("🍎 FrischMarkt Fresh Food Loss Optimization Dashboard")
+st.title("🍎 FrischMarkt Fresh Food Loss Optimization Dashboard 🥬")
 st.markdown("---")
 
 # --- Define Theme Colors ---
 # These colors are taken from your provided theme
-PRIMARY_COLOR = "#FF4B4B"        # Red
+PRIMARY_COLOR = "#FF4B4B"        # Red (for highlights)
+# BACKGROUND_COLOR and TEXT_COLOR are for the overall Streamlit app, not charts
 BACKGROUND_COLOR = "#0E1117"     # Very dark grey/black
 TEXT_COLOR = "#FAFAFA"          # White
 SECONDARY_BACKGROUND_COLOR = "#262730" # Dark grey
-NON_HIGHLIGHT_COLOR = "#666666" # A darker grey for non-highlighted bars
+# Removed: NON_HIGHLIGHT_COLOR = "#666666" # A darker grey for non-highlighted bars
 
-# --- Plotly Theme Layout (to apply to all charts) ---
-PLOTLY_THEME_LAYOUT = {
-    'plot_bgcolor': BACKGROUND_COLOR,  # Chart plotting area background
-    'paper_bgcolor': SECONDARY_BACKGROUND_COLOR, # Overall paper background (around the plot area)
-    'font': {
-        'color': TEXT_COLOR      # Default font color for chart elements
-    },
-    'xaxis': {
-        'gridcolor': '#333333',  # Darker grid lines for better contrast on dark background
-        'linecolor': TEXT_COLOR,
-        'zerolinecolor': TEXT_COLOR,
-        'tickfont': {'color': TEXT_COLOR},
-        'title_font': {'color': TEXT_COLOR}
-    },
-    'yaxis': {
-        'gridcolor': '#333333',  # Darker grid lines
-        'linecolor': TEXT_COLOR,
-        'zerolinecolor': TEXT_COLOR,
-        'tickfont': {'color': TEXT_COLOR},
-        'title_font': {'color': TEXT_COLOR}
-    },
-    'legend': {
-        'bgcolor': SECONDARY_BACKGROUND_COLOR, # Match secondary background
-        'bordercolor': TEXT_COLOR,
-        'borderwidth': 1,
-        'font': {'color': TEXT_COLOR}
-    },
-    'title': {
-        'font': {'color': TEXT_COLOR}
-    }
-}
+# --- Removed: Plotly Theme Layout (to apply to all charts) ---
+# Removed: PLOTLY_THEME_LAYOUT = {
+# Removed:     'plot_bgcolor': 'white',  # Chart plotting area background set to white
+# Removed:     'paper_bgcolor': 'white', # Overall paper background (around the plot area) set to white
+# Removed:     'font': {
+# Removed:         'color': 'black'      # Default font color for chart elements set to black
+# Removed:     },
+# Removed:     'xaxis': {
+# Removed:         'gridcolor': '#E0E0E0',  # Light grey grid lines for better contrast on white background
+# Removed:         'linecolor': 'black',
+# Removed:         'zerolinecolor': 'black',
+# Removed:         'tickfont': {'color': 'black'},
+# Removed:         'title_font': {'color': 'black'}
+# Removed:     },
+# Removed:     'yaxis': {
+# Removed:         'gridcolor': '#E0E0E0',  # Light grey grid lines
+# Removed:         'linecolor': 'black',
+# Removed:         'zerolinecolor': 'black',
+# Removed:         'tickfont': {'color': 'black'},
+# Removed:         'title_font': {'color': 'black'}
+# Removed:     },
+# Removed:     'legend': {
+# Removed:         'bgcolor': '#F0F0F0', # Very light grey for legend background
+# Removed:         'bordercolor': 'black',
+# Removed:         'borderwidth': 1,
+# Removed:         'font': {'color': 'black'}
+# Removed:     },
+# Removed:     'title': {
+# Removed:         'font': {'color': 'black'}
+# Removed:     }
+# Removed: }
 
 
 # --- Configuration & Data Loading ---
@@ -65,7 +66,7 @@ RF_METRICS_FILE = os.path.join(DATA_DIR, 'rf_model_metrics.csv')
 RF_PREDICTIONS_FILE = os.path.join(DATA_DIR, 'rf_predictions.csv')
 
 # Define path for the PDF Executive Summary (assuming it's in the DATA_DIR)
-EXECUTIVE_SUMMARY_PDF_PATH = os.path.join(DATA_DIR, 'FrischMarkt_Executive_Summary.pdf')
+EXECUTIVE_SUMMARY_PDF_PATH = os.path.join(DATA_DIR, 'FrischMarkt Expiry Loss Analysis_ Executive Summary.pdf')
 
 
 @st.cache_data # Cache data loading and preprocessing to improve performance
@@ -205,11 +206,11 @@ if os.path.exists(EXECUTIVE_SUMMARY_PDF_PATH):
     st.sidebar.download_button(
         label="⬇️ Download Executive Summary (PDF)",
         data=PDF_bytes,
-        file_name="FrischMarkt_Executive_Summary.pdf",
+        file_name="FrischMarkt Expiry Loss Analysis_ Executive Summary.pdf",
         mime="application/pdf"
     )
 else:
-    st.sidebar.info("Executive Summary PDF not found. Please ensure 'FrischMarkt_Executive_Summary.pdf' is in the 'frischmarkt_data' folder.")
+    st.sidebar.info("Executive Summary PDF not found. Please ensure 'FrischMarkt Expiry Loss Analysis_ Executive Summary.pdf' is in the 'frischmarkt_data' folder.")
 
 
 st.sidebar.link_button(
@@ -312,7 +313,7 @@ tab0, tab1, tab2, tab3, tab4 = st.tabs([
     "📊 Overall Summary",
     "🔥 Loss Hotspots",
     "📈 Demand Forecasting Insights",
-    "💡 Recommendations & Impact"
+    "✨ Actionable Recommendations & Quantifiable Impact"
 ])
 
 # --- Tab 0: Executive Summary ---
@@ -353,8 +354,8 @@ with tab1:
                                  color='Loss Type',
                                  color_discrete_map=loss_colors,
                                  text_auto=False)
-    fig_loss_breakdown.update_traces(marker_line_width=1, marker_line_color=TEXT_COLOR)
-    fig_loss_breakdown.update_layout(PLOTLY_THEME_LAYOUT) # Apply theme
+    fig_loss_breakdown.update_traces(marker_line_width=1, marker_line_color='black') # Changed from PLOTLY_THEME_LAYOUT
+    # Removed: fig_loss_breakdown.update_layout(PLOTLY_THEME_LAYOUT) # Apply theme
     st.plotly_chart(fig_loss_breakdown, use_container_width=True)
     st.info("This bar chart visually represents the proportion of total losses attributed to expiry versus markdowns. It provides an immediate understanding of which type of loss is more prevalent and requires more urgent attention.")
 
@@ -381,8 +382,8 @@ with tab1:
     fig_trends.update_layout(title=f'Total {aggregation_level} Loss and Revenue Over Time',
                              xaxis_title=x_axis_title, yaxis_title='Amount (€)',
                              hovermode="x unified",
-                             legend=dict(x=0.01, y=0.99, bordercolor=TEXT_COLOR, borderwidth=1))
-    fig_trends.update_layout(PLOTLY_THEME_LAYOUT) # Apply theme
+                             legend=dict(x=0.01, y=0.99, bordercolor='black', borderwidth=1)) # Changed from PLOTLY_THEME_LAYOUT
+    # Removed: fig_trends.update_layout(PLOTLY_THEME_LAYOUT) # Apply theme
     st.plotly_chart(fig_trends, use_container_width=True)
     st.info(f"This line chart displays the {aggregation_level.lower()} fluctuations in total losses and total revenue over the selected period. It helps in identifying trends, peak loss periods, and the overall financial health of the business.")
 
@@ -397,7 +398,7 @@ with tab2:
     # Create colors list for highlighting highest bar
     max_loss_cat = losses_by_category['total_loss_eur'].max()
     colors_cat = [
-        PRIMARY_COLOR if val == max_loss_cat else NON_HIGHLIGHT_COLOR for val in losses_by_category['total_loss_eur']
+        PRIMARY_COLOR if val == max_loss_cat else '#666666' for val in losses_by_category['total_loss_eur'] # Changed from NON_HIGHLIGHT_COLOR
     ]
 
     fig_cat_loss = go.Figure(data=[go.Bar(
@@ -410,8 +411,8 @@ with tab2:
         xaxis_title='Product Category',
         yaxis_title='Total Loss (€)'
     )
-    fig_cat_loss.update_traces(marker_line_width=1, marker_line_color=TEXT_COLOR)
-    fig_cat_loss.update_layout(PLOTLY_THEME_LAYOUT) # Apply theme
+    fig_cat_loss.update_traces(marker_line_width=1, marker_line_color='black') # Changed from PLOTLY_THEME_LAYOUT
+    # Removed: fig_cat_loss.update_layout(PLOTLY_THEME_LAYOUT) # Apply theme
     st.plotly_chart(fig_cat_loss, use_container_width=True)
     st.info("This bar chart highlights the product categories contributing most to total losses. The highest bar (in red) indicates the category with the most significant financial leakage due to expiry and markdowns.")
 
@@ -422,7 +423,7 @@ with tab2:
     # Create colors list for highlighting highest bar
     max_loss_store = losses_by_store['total_loss_eur'].max()
     colors_store = [
-        PRIMARY_COLOR if val == max_loss_store else NON_HIGHLIGHT_COLOR for val in losses_by_store['total_loss_eur']
+        PRIMARY_COLOR if val == max_loss_store else '#666666' for val in losses_by_store['total_loss_eur'] # Changed from NON_HIGHLIGHT_COLOR
     ]
 
     fig_store_loss = go.Figure(data=[go.Bar(
@@ -435,8 +436,8 @@ with tab2:
         xaxis_title='Store Name',
         yaxis_title='Total Loss (€)'
     )
-    fig_store_loss.update_traces(marker_line_width=1, marker_line_color=TEXT_COLOR)
-    fig_store_loss.update_layout(PLOTLY_THEME_LAYOUT) # Apply theme
+    fig_store_loss.update_traces(marker_line_width=1, marker_line_color='black') # Changed from PLOTLY_THEME_LAYOUT
+    # Removed: fig_store_loss.update_layout(PLOTLY_THEME_LAYOUT) # Apply theme
     st.plotly_chart(fig_store_loss, use_container_width=True)
     st.info("This chart visualizes total losses across different stores. The store with the highest losses (in red) is a primary target for operational improvements and inventory adjustments.")
 
@@ -449,7 +450,7 @@ with tab2:
     if not expiry_loss_by_product.empty:
         max_loss_product_value = expiry_loss_by_product['expiry_loss_eur'].max()
         colors_product = [
-            PRIMARY_COLOR if val == max_loss_product_value else NON_HIGHLIGHT_COLOR for val in expiry_loss_by_product['expiry_loss_eur']
+            PRIMARY_COLOR if val == max_loss_product_value else '#666666' for val in expiry_loss_by_product['expiry_loss_eur'] # Changed from NON_HIGHLIGHT_COLOR
         ]
     else:
         colors_product = []
@@ -464,8 +465,8 @@ with tab2:
         xaxis_title='Product Name',
         yaxis_title='Expiry Loss (€)'
     )
-    fig_top_products.update_traces(marker_line_width=1, marker_line_color=TEXT_COLOR)
-    fig_top_products.update_layout(PLOTLY_THEME_LAYOUT) # Apply theme
+    fig_top_products.update_traces(marker_line_width=1, marker_line_color='black') # Changed from PLOTLY_THEME_LAYOUT
+    # Removed: fig_top_products.update_layout(PLOTLY_THEME_LAYOUT) # Apply theme
     st.plotly_chart(fig_top_products, use_container_width=True)
     st.info("This chart identifies the top 10 individual products responsible for the highest expiry losses. The product highlighted in red is the single largest contributor to expired inventory costs. For products like Rinderhackfleisch, high expiry loss is often due to a combination of short shelf life, high purchase volume, and fluctuating demand, making precise inventory management crucial.")
 
@@ -508,10 +509,10 @@ with tab2:
             title=f'Expiry vs. Markdown Loss for Top {N_top_products_for_breakdown} Products',
             xaxis_title='Product Name',
             yaxis_title='Loss Amount (€)',
-            legend=dict(x=0.01, y=0.99, bordercolor=TEXT_COLOR, borderwidth=1)
+            legend=dict(x=0.01, y=0.99, bordercolor='black', borderwidth=1) # Changed from PLOTLY_THEME_LAYOUT
         )
-        fig_expiry_markdown_breakdown.update_traces(marker_line_width=1, marker_line_color=TEXT_COLOR)
-        fig_expiry_markdown_breakdown.update_layout(PLOTLY_THEME_LAYOUT) # Apply theme
+        fig_expiry_markdown_breakdown.update_traces(marker_line_width=1, marker_line_color='black') # Changed from PLOTLY_THEME_LAYOUT
+        # Removed: fig_expiry_markdown_breakdown.update_layout(PLOTLY_THEME_LAYOUT) # Apply theme
         st.plotly_chart(fig_expiry_markdown_breakdown, use_container_width=True)
         st.info("This chart breaks down the total loss for the top 10 loss-generating products into their expiry loss and markdown loss components. It helps identify whether a product's high overall loss is primarily driven by expiration or by price reductions.")
 
@@ -530,7 +531,7 @@ with tab2:
     # Highlight the highest expiry rate (likely 'Poor'): Red for highest, grey for others
     max_expiry_mgmt = overall_expiry_rate_by_mgmt['overall_expiry_rate_pct'].max()
     colors_mgmt = [
-        PRIMARY_COLOR if val == max_expiry_mgmt else NON_HIGHLIGHT_COLOR for val in overall_expiry_rate_by_mgmt['overall_expiry_rate_pct']
+        PRIMARY_COLOR if val == max_expiry_mgmt else '#666666' for val in overall_expiry_rate_by_mgmt['overall_expiry_rate_pct'] # Changed from NON_HIGHLIGHT_COLOR
     ]
 
     fig_mgmt_expiry = go.Figure(data=[go.Bar(
@@ -543,8 +544,8 @@ with tab2:
         xaxis_title='Management Quality',
         yaxis_title='Expiry Rate (%)'
     )
-    fig_mgmt_expiry.update_traces(marker_line_width=1, marker_line_color=TEXT_COLOR)
-    fig_mgmt_expiry.update_layout(PLOTLY_THEME_LAYOUT) # Apply theme
+    fig_mgmt_expiry.update_traces(marker_line_width=1, marker_line_color='black') # Changed from PLOTLY_THEME_LAYOUT
+    # Removed: fig_mgmt_expiry.update_layout(PLOTLY_THEME_LAYOUT) # Apply theme
     st.plotly_chart(fig_mgmt_expiry, use_container_width=True)
     st.info("This bar chart illustrates the average expiry rate across stores, categorized by their management quality. The red bar indicates the management quality level associated with the highest overall expiry rate, suggesting areas for targeted training or process review.")
 
@@ -566,7 +567,7 @@ with tab2:
                                         labels={'actual_shelf_life_days': 'Actual Shelf Life (Days)',
                                                 'total_expiry_loss': 'Total Expiry Loss (€)'},
                                         color_discrete_sequence=px.colors.qualitative.Plotly) # Changed to Plotly palette
-        fig_supplier_shelf.update_layout(PLOTLY_THEME_LAYOUT) # Apply theme
+        # Removed: fig_supplier_shelf.update_layout(PLOTLY_THEME_LAYOUT) # Apply theme
         st.plotly_chart(fig_supplier_shelf, use_container_width=True)
         st.info("This chart illustrates if products from suppliers delivering shorter 'actual shelf life' contribute more to expiry loss. Larger circles indicate more units expired.")
     else:
@@ -595,9 +596,9 @@ with tab2:
     ])
     fig_markdown_outcomes.update_layout(barmode='group', title='Markdown Aggressiveness: Loss vs. Units Marked Down',
                                         xaxis_title='Markdown Aggressiveness', yaxis_title='Amount/Units',
-                                        legend=dict(x=0.01, y=0.99, bordercolor=TEXT_COLOR, borderwidth=1))
-    fig_markdown_outcomes.update_traces(marker_line_width=1, marker_line_color=TEXT_COLOR)
-    fig_markdown_outcomes.update_layout(PLOTLY_THEME_LAYOUT) # Apply theme
+                                        legend=dict(x=0.01, y=0.99, bordercolor='black', borderwidth=1)) # Changed from PLOTLY_THEME_LAYOUT
+    fig_markdown_outcomes.update_traces(marker_line_width=1, marker_line_color='black') # Changed from PLOTLY_THEME_LAYOUT
+    # Removed: fig_markdown_outcomes.update_layout(PLOTLY_THEME_LAYOUT) # Apply theme
     st.plotly_chart(fig_markdown_outcomes, use_container_width=True)
 
     fig_conversion_rate = px.bar(markdown_outcome_data, x='markdown_aggressiveness', y='conversion_rate_marked_down',
@@ -606,8 +607,8 @@ with tab2:
                                  color='markdown_aggressiveness',
                                  color_discrete_sequence=px.colors.qualitative.Safe, # Using Safe qualitative palette
                                  text_auto=False)
-    fig_conversion_rate.update_traces(marker_line_width=1, marker_line_color=TEXT_COLOR)
-    fig_conversion_rate.update_layout(PLOTLY_THEME_LAYOUT) # Apply theme
+    fig_conversion_rate.update_traces(marker_line_width=1, marker_line_color='black') # Changed from PLOTLY_THEME_LAYOUT
+    # Removed: fig_conversion_rate.update_layout(PLOTLY_THEME_LAYOUT) # Apply theme
     st.plotly_chart(fig_conversion_rate, use_container_width=True)
     st.info("These charts compare different markdown strategies. The first shows total loss and units marked down, while the second indicates how effectively marked-down units are sold.")
 
@@ -635,7 +636,7 @@ with tab2:
                                              'total_expired': 'Total Expired Units'},
                                      hover_name='date',
                                      trendline='ols')
-        fig_temp_expiry.update_layout(PLOTLY_THEME_LAYOUT) # Apply theme
+        # Removed: fig_temp_expiry.update_layout(PLOTLY_THEME_LAYOUT) # Apply theme
         st.plotly_chart(fig_temp_expiry, use_container_width=True)
         st.info("This scatter plot shows the relationship between daily high temperatures and expiry rates for temperature-sensitive products. Larger circles indicate more expired units.")
     else:
@@ -743,9 +744,9 @@ with tab2:
             height=400 * rows,
             showlegend=True,
             hovermode="x unified",
-            legend=dict(x=0.01, y=0.99, bordercolor=TEXT_COLOR, borderwidth=1)
+            legend=dict(x=0.01, y=0.99, bordercolor='black', borderwidth=1) # Changed from PLOTLY_THEME_LAYOUT
         )
-        fig_inventory_profiles.update_layout(PLOTLY_THEME_LAYOUT) # Apply theme
+        # Removed: fig_inventory_profiles.update_layout(PLOTLY_THEME_LAYOUT) # Apply theme
         st.plotly_chart(fig_inventory_profiles, use_container_width=True)
 
         st.info(f"This multi-panel chart visualizes the {aggregation_level.lower()} beginning inventory, units expired, and units marked down for the top loss-generating products. It helps identify overstocking issues and their direct impact on losses.")
@@ -790,7 +791,7 @@ with tab3:
         # Create colors list for highlighting highest bar
         max_importance_val = top_15_importances.max()
         colors_importances = [
-            '#28A745' if val == max_importance_val else NON_HIGHLIGHT_COLOR for val in top_15_importances.values
+            '#28A745' if val == max_importance_val else '#666666' for val in top_15_importances.values # Changed from NON_HIGHLIGHT_COLOR
         ]
 
         fig_importances = go.Figure(data=[go.Bar(
@@ -805,8 +806,8 @@ with tab3:
             yaxis_title='Feature',
             yaxis={'categoryorder':'total ascending'}
         )
-        fig_importances.update_traces(marker_line_width=1, marker_line_color=TEXT_COLOR)
-        fig_importances.update_layout(PLOTLY_THEME_LAYOUT) # Apply theme
+        fig_importances.update_traces(marker_line_width=1, marker_line_color='black') # Changed from PLOTLY_THEME_LAYOUT
+        # Removed: fig_importances.update_layout(PLOTLY_THEME_LAYOUT) # Apply theme
         st.plotly_chart(fig_importances, use_container_width=True)
         st.info("This chart shows which factors the model considers most important in predicting daily sales. High importance indicates a strong influence on demand.")
 
@@ -844,9 +845,9 @@ with tab3:
                     xaxis_title=x_axis_title,
                     yaxis_title='Units Sold',
                     hovermode="x unified",
-                    legend=dict(x=0.01, y=0.99, bordercolor=TEXT_COLOR, borderwidth=1)
+                    legend=dict(x=0.01, y=0.99, bordercolor='black', borderwidth=1) # Changed from PLOTLY_THEME_LAYOUT
                 )
-                fig_pred_vs_actual.update_layout(PLOTLY_THEME_LAYOUT) # Apply theme
+                # Removed: fig_pred_vs_actual.update_layout(PLOTLY_THEME_LAYOUT) # Apply theme
                 st.plotly_chart(fig_pred_vs_actual, use_container_width=True)
                 st.info(f"This chart compares the model's predictions against actual sales for a selected product and store, helping to visualize forecasting accuracy over time at a {aggregation_level.lower()} granularity.")
             else:
@@ -871,7 +872,7 @@ with tab4:
 
     st.subheader("3. Enhance Operational Excellence and Supplier Review")
     st.write("Address human and process factors through targeted training (stock rotation, temperature control) and prioritize suppliers delivering fresher products. The model's feature importances also show `shelf_life_days` and `temperature_high_c` as significant, emphasizing the importance of product freshness and environmental controls.")
-    st.markdown(f"**Potential Impact:** Improved efficiency and supplier quality projected to reduce overall expiry losses by an additional **5-8%**, translating to **€250,000 - €450,000 annually**.")
+    st.markdown(f"**Potential Impact:** Improved operational efficiency and supplier quality are projected to reduce overall expiry losses by an additional **5-8%**, translating to **€250,000 - €450,000 annually**, complementing the gains from demand forecasting.")
 
     st.subheader("Overall Projected Impact")
     st.markdown(f"By implementing these data-driven strategies, FrischMarkt can transform its inventory management, leading to an estimated **total loss reduction of 15-25%**, translating to **over €950,000 - €1,650,000 annually**.")
@@ -880,6 +881,6 @@ with tab4:
     st.markdown("""
     * **Phase 1 (Pilot):** Roll out demand-driven ordering for top high-loss products (e.g., "Rinderhackfleisch," "Erdbeeren," "Schweinekoteletts") in 2-3 struggling stores.
     * **Phase 2 (Expansion):** Gradually expand to more products and stores, refining the model and processes based on pilot results.
-    * **Continuous Improvement:** Regularly monitor model performance, update data, and adapt strategies. Integrate real-time inventory data for more agile adjustments.
+    * **Continuous Improvement:** Regularly monitor model performance and adjust based on new data and evolving market dynamics.
     * **Training:** Provide comprehensive training for store staff on new tools and processes, emphasizing the importance of accurate inventory counts and adherence to new markdown policies.
     """)
