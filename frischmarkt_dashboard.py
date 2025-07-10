@@ -226,7 +226,7 @@ st.sidebar.link_button(
 )
 
 
-# --- Executive Summary Content (for the new tab) ---
+# --- Executive Summary Content ---
 executive_summary_markdown = """
 # FrischMarkt Expiry Loss Analysis: Executive Summary & Recommendations
 **Date:** July 04, 2025  
