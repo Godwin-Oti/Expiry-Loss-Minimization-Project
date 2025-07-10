@@ -215,13 +215,13 @@ else:
 
 st.sidebar.link_button(
     label="🔗 Visit GitHub Repo",
-    url="https://github.com/your-repo-link", # IMPORTANT: Replace with your actual GitHub repo link
+    url="https://github.com/Godwin-Oti/FrischMarkt-Expiry-Loss-Minimization-Project",
     help="Click to visit the project's GitHub repository for code and documentation."
 )
 
 st.sidebar.link_button(
     label="💼 Visit My LinkedIn",
-    url="https://www.linkedin.com/in/your-profile", # IMPORTANT: Replace with your actual LinkedIn profile link
+    url="https://www.linkedin.com/in/godwin-oti/", 
     help="Connect with me on LinkedIn!"
 )
 
